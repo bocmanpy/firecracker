@@ -79,22 +79,22 @@ mkdir -p $fc_dir/instances/instance_0
 cd $fc_dir/instances/instance_0
 
 set -eu
-# download a kernel and filesystem image
-[ -e hello-vmlinux.bin ] || wget https://s3.amazonaws.com/spec.ccfc.min/img/hello/kernel/hello-vmlinux.bin &>/dev/null
-[ -e hello-rootfs.ext4 ] || wget -O hello-rootfs.ext4 https://raw.githubusercontent.com/firecracker-microvm/firecracker-demo/main/xenial.rootfs.ext4 &>/dev/null
+# Download kernel and filesystem image
+[ -e vmlinux ] || wget https://s3.amazonaws.com/spec.ccfc.min/img/hello/kernel/hello-vmlinux.bin &>/dev/null
+[ -e rootfs.ext4 ] || wget -O hello-rootfs.ext4 https://raw.githubusercontent.com/firecracker-microvm/firecracker-demo/main/xenial.rootfs.ext4 &>/dev/null
 
 KERNEL_BOOT_ARGS="ro console=ttyS0 noapic reboot=k panic=1 pci=off nomodules random.trust_cpu=on ip=dhcp"
 # make a configuration file
 cat <<EOF > vmconfig.json
 {
   "boot-source": {
-    "kernel_image_path": "hello-vmlinux.bin",
+    "kernel_image_path": "vmlinux",
     "boot_args": "$KERNEL_BOOT_ARGS"
   },
   "drives": [
     {
       "drive_id": "rootfs",
-      "path_on_host": "hello-rootfs.ext4",
+      "path_on_host": "rootfs.ext4",
       "is_root_device": true,
       "is_read_only": false
     }
