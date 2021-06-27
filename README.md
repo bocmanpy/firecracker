@@ -1,4 +1,4 @@
-## Using Vagrand for Firecracker check
+## Using Vagrant for Firecracker check
 
 
 Docs: https://github.com/firecracker-microvm/firecracker/blob/main/docs/getting-started.md
