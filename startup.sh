@@ -75,13 +75,13 @@ dnsmasq --conf-file=$fc_dir/dnsmasq/firecracker.conf --leasefile-ro &
 # -----------------------------------------------------------------
 
 # Setup instances
-mkdir -p $fc_dir/instances/instance0
-cd $fc_dir/instances/instance0
+mkdir -p $fc_dir/instances/instance_0
+cd $fc_dir/instances/instance_0
 
 set -eu
 # download a kernel and filesystem image
-[ -e hello-vmlinux.bin ] || wget https://s3.amazonaws.com/spec.ccfc.min/img/hello/kernel/hello-vmlinux.bin
-[ -e hello-rootfs.ext4 ] || wget -O hello-rootfs.ext4 https://raw.githubusercontent.com/firecracker-microvm/firecracker-demo/main/xenial.rootfs.ext4
+[ -e hello-vmlinux.bin ] || wget https://s3.amazonaws.com/spec.ccfc.min/img/hello/kernel/hello-vmlinux.bin &>/dev/null
+[ -e hello-rootfs.ext4 ] || wget -O hello-rootfs.ext4 https://raw.githubusercontent.com/firecracker-microvm/firecracker-demo/main/xenial.rootfs.ext4 &>/dev/null
 
 KERNEL_BOOT_ARGS="ro console=ttyS0 noapic reboot=k panic=1 pci=off nomodules random.trust_cpu=on ip=dhcp"
 # make a configuration file
