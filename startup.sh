@@ -15,7 +15,8 @@ mv firecracker-${latest}-$(uname -m) /usr/local/sbin/firecracker
 # Post-setup firecracker
 fc_dir="/var/lib/firecracker"
 mkdir -p $fc_dir
-cp /tmp/vmlinux $fc_dir/instances/ && rm /tmp/vmlinux
+mv /tmp/vmlinux.bz2 $fc_dir/instances/ && bzip2 -d $fc_dir/instances/vmlinux.bz2
+rm -f $fc_dir/instances/vmlinux.bz2
 
 # -----------------------------------------------------------------
 # Forward all

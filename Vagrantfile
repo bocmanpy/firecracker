@@ -23,7 +23,7 @@ Vagrant.configure("2") do |config|
   end
 
   # Upload repository kernel
-  config.vm.provision "file", source: "data/kernel/linux-5.12.13", destination: "/tmp/vmlinux"
+  config.vm.provision "file", source: "data/kernel/linux-5.12.13.bz2", destination: "/tmp/vmlinux.bz2"
 
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
