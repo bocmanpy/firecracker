@@ -15,9 +15,9 @@ mv firecracker-${latest}-$(uname -m) /usr/local/sbin/firecracker
 # Post-setup firecracker
 fc_dir="/var/lib/firecracker"
 mkdir -p $fc_dir
+cp /tmp/vmlinux $fc_dir/instances/ && rm /tmp/vmlinux
 
 # -----------------------------------------------------------------
-
 # Forward all
 sysctl -w net.ipv4.ip_forward=1 > /dev/null
 
@@ -78,17 +78,16 @@ dnsmasq --conf-file=$fc_dir/dnsmasq/firecracker.conf --leasefile-ro &
 mkdir -p $fc_dir/instances/instance_0
 cd $fc_dir/instances/instance_0
 
-set -eu
 # Download kernel and filesystem image
-[ -e vmlinux ] || wget https://s3.amazonaws.com/spec.ccfc.min/img/hello/kernel/hello-vmlinux.bin &>/dev/null
-[ -e rootfs.ext4 ] || wget -O hello-rootfs.ext4 https://raw.githubusercontent.com/firecracker-microvm/firecracker-demo/main/xenial.rootfs.ext4 &>/dev/null
+set -eu
+[ -e rootfs.ext4 ] || wget -O rootfs.ext4 https://raw.githubusercontent.com/firecracker-microvm/firecracker-demo/main/xenial.rootfs.ext4 &>/dev/null
 
 KERNEL_BOOT_ARGS="ro console=ttyS0 noapic reboot=k panic=1 pci=off nomodules random.trust_cpu=on ip=dhcp"
 # make a configuration file
 cat <<EOF > vmconfig.json
 {
   "boot-source": {
-    "kernel_image_path": "vmlinux",
+    "kernel_image_path": "../vmlinux",
     "boot_args": "$KERNEL_BOOT_ARGS"
   },
   "drives": [
